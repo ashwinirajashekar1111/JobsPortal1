@@ -1,4 +1,4 @@
-﻿@model JobsPortal.Models.UserLoginMV
+﻿﻿@model JobsPortal.Models.UserLoginMV
 @{
     ViewBag.Title = "Login";
 }
@@ -84,7 +84,7 @@
                 <label>Enter Captcha:</label>
                 <div class="form-row">
                     <div class="form-group col-md-6">
-                        <input type="text" class="form-control" id="textinput" oninput="checkCaptcha()" >
+                        <input type="text" class="form-control" id="textinput" oninput="checkCaptcha()">
                     </div>
                 </div>
                 <div class="form-group mt-4">
@@ -112,12 +112,26 @@
         function cap() {
             const captcha = generateRandomString(6);
             document.getElementById("capt").value = captcha;
+            //return captcha;
         }
+        //function checkCaptcha() {
+        //    var captchaInput = document.getElementById("textinput");
+        //    var loginButton = document.getElementById("login-button");
+
+        //    if (captchaInput.value.length> 0) {
+        //        loginButton.removeAttribute("disabled");
+        //    } else {
+        //        loginButton.setAttribute("disabled", "disabled");
+        //    }
+        //}
+
         function checkCaptcha() {
             var captchaInput = document.getElementById("textinput");
             var loginButton = document.getElementById("login-button");
 
-            if (captchaInput.value.length > 0) {
+            var generatedCaptcha = document.getElementById("capt").value;
+
+            if (captchaInput.value === generatedCaptcha && captchaInput.value.length === 6) {
                 loginButton.removeAttribute("disabled");
             } else {
                 loginButton.setAttribute("disabled", "disabled");

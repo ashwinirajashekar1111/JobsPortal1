@@ -32,7 +32,7 @@ namespace JobsPortal.Controllers
             // Check if the ModelState is valid, meaning that all form validation rules have passed.
             // ModelState.IsValid checks if there are any validation errors on the submitted form.
             if (ModelState.IsValid)
-            {                
+            {
                 var checkUser = db.UserTables.Where(u => u.EmailAddress == userMV.EmailAddress).FirstOrDefault();
                 // Check if the email address provided in the form is already registered in the database.
                 // If it's found, an error message is added to the ModelState, and hasValidationErrors is set to true.
@@ -73,7 +73,27 @@ namespace JobsPortal.Controllers
                             // Set its properties based on the form data.
                             // Validation checks for Company properties done
                             var company = new CompanyTable();
-                            
+                            company.UserID = user.UserID;
+                            if (string.IsNullOrEmpty(userMV.Company.EmailAddress))
+                            {
+                                ModelState.AddModelError("Company.EmailAddress", "*Required");
+                                hasValidationErrors = true;
+                            }
+                            if (string.IsNullOrEmpty(userMV.Company.CompanyName))
+                            {
+                                ModelState.AddModelError("Company.CompanyName", "*Required");
+                                hasValidationErrors = true;
+                            }
+                            if (string.IsNullOrEmpty(userMV.Company.PhoneNo))
+                            {
+                                ModelState.AddModelError("Company.PhoneNo", "*Required");
+                                hasValidationErrors = true;
+                            }
+                            if (string.IsNullOrEmpty(userMV.Company.Description))
+                            {
+                                ModelState.AddModelError("Company.Description", "*Required");
+                                hasValidationErrors = true;
+                            }
                             company.EmailAddress = userMV.Company.EmailAddress;
                             company.CompanyName = userMV.Company.CompanyName;
                             company.ContactNo = userMV.ContactNo;
@@ -83,10 +103,42 @@ namespace JobsPortal.Controllers
                             // Add the company to the database and save changes.
                             db.CompanyTables.Add(company);
                             db.SaveChanges();
-
-
                         }
-                        
+                        else if (userMV.AreYouProvider != true)
+                        {
+                            // Create a new EmployeesTable entity associated with the user.
+                            // Set its properties based on the form data.
+                            // Validation checks for User properties done
+                            var employee = new EmployeesTable();
+                            employee.UserId = user.UserID;
+                            if (string.IsNullOrEmpty(userMV.Employee.EmailAddress))
+                            {
+                                ModelState.AddModelError("Employee.EmailAddress", "*Required");
+                                hasValidationErrors = true;
+                            }
+                            if (string.IsNullOrEmpty(userMV.Employee.EmployeeName))
+                            {
+                                ModelState.AddModelError("Employee.EmployeeName", "*Required");
+                                hasValidationErrors = true;
+                            }
+                            if (string.IsNullOrEmpty(userMV.Employee.Gender))
+                            {
+                                ModelState.AddModelError("Employee.Gender", "*Required");
+                                hasValidationErrors = true;
+                            }
+                            employee.EmailAddress = userMV.Employee.EmailAddress;
+                            employee.EmployeeName = userMV.Employee.EmployeeName;
+                            employee.Gender = userMV.Employee.Gender;
+                            employee.Photo = "~/Content/assests/img/adapt_icon/3.png";
+                            // Add the users to the database and save changes.
+                            db.EmployeesTables.Add(employee);
+                            db.SaveChanges();
+                        }
+                        // If neither provider nor seeker, roll back the transaction.
+                        else
+                        {
+                            transact.Rollback();
+                        }
                         // Commit the transaction to save all changes to the database.
                         transact.Commit();
                         log.Info($"New user with username {user.UserName} created successfully.");
@@ -99,7 +151,7 @@ namespace JobsPortal.Controllers
                         ModelState.AddModelError(string.Empty, "Please provide correct details!");
                         log.Error("Error while creating new user.", ex);
                         transact.Rollback();
-                    }                    
+                    }
                 }
             }
             // If ModelState.IsValid is false or any exception occurred, return the registration form view with error messages.
