@@ -16,7 +16,7 @@ namespace JobsPortal.Models
         public int UserTypeID { get; set; }
 
         [Required(ErrorMessage = "Username is required.")]
-        [Index(IsUnique = true)]
+        //[Index(IsUnique = true)]
         [MaxLength(100, ErrorMessage = "Username can't be longer than 100 characters.")]
         public string UserName { get; set; }
 

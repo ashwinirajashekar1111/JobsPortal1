@@ -83,14 +83,14 @@
                         <li>Vacancy : <span>@Model.Vacancy</span></li>
                         <li>Job nature : <span>@Model.JobNature</span></li>
                         <li>Minimum Salary :  <span>@(Model.MinSalary * 12) INR/yr</span></li>
-                        <li>Application Deadline : <span>@Model.ApplicationDeadline.ToString("dd MM, yyyy")</span></li>
-                        
+               <li>Application Deadline : <span>@Model.ApplicationDeadline.ToString("dd MM, yyyy")</span></li>  
                     </ul>
                     <div class="apply-btn2">
                         <a href="@Url.Action("Create","EmployeesTables")" class="btn">Apply Now</a>
                         <br />
                         <a href="@Url.Action("Apply", "EmployeesTables")" class="btn">Send your details directly to the employer for speedy updates!</a>
                     </div>
+                    
                 </div>                
             </div>
         </div>

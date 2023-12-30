@@ -89,6 +89,12 @@ namespace JobsPortal.Controllers
                                 ModelState.AddModelError("Company.PhoneNo", "*Required");
                                 hasValidationErrors = true;
                             }
+                            else if (userMV.Company.PhoneNo.Length != 10 || !userMV.Company.PhoneNo.All(char.IsDigit))
+                            {
+                                ModelState.AddModelError("Company.PhoneNo", "Please enter a 10-digit numeric phone number");
+                                hasValidationErrors = true;
+                            }
+
                             if (string.IsNullOrEmpty(userMV.Company.Description))
                             {
                                 ModelState.AddModelError("Company.Description", "*Required");
