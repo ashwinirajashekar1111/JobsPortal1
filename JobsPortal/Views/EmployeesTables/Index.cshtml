@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Form Filling </h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -102,9 +102,20 @@
                 @Html.DisplayFor(modelItem => item.UserTable.UserName)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }) |
-                @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID })
+                <br >
+                @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
+            <br />
+                
+                <br >
+                @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
+            <br />
+
+                <br >
+                @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
+            <br />
+
+                
+                
             </td>
         </tr>
     }
