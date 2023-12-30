@@ -1,5 +1,5 @@
+using JobprtalsWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using restwebapidemo.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 

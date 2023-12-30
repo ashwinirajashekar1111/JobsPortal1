@@ -9,11 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseAccessLayer", "Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject", "UnitTestProject\UnitTestProject.csproj", "{701450AD-8E44-4C07-B99A-2A1266A075FB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "restwebapidemo", "restwebapidemo\restwebapidemo.csproj", "{1C94687A-A9E4-420A-8FC0-FB40535FD80E}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1163C98F-8A48-46FC-AD29-8BD29FE8DFBF} = {1163C98F-8A48-46FC-AD29-8BD29FE8DFBF}
-		{CC2377E3-BA21-4E0E-8E65-CA32ADEB4530} = {CC2377E3-BA21-4E0E-8E65-CA32ADEB4530}
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JobprtalsWebAPI", "JobprtalsWebAPI\JobprtalsWebAPI.csproj", "{FEC6209E-CF6B-41FB-96CE-99846EB26AD9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +29,10 @@ Global
 		{701450AD-8E44-4C07-B99A-2A1266A075FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{701450AD-8E44-4C07-B99A-2A1266A075FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{701450AD-8E44-4C07-B99A-2A1266A075FB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{1C94687A-A9E4-420A-8FC0-FB40535FD80E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{1C94687A-A9E4-420A-8FC0-FB40535FD80E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{1C94687A-A9E4-420A-8FC0-FB40535FD80E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{1C94687A-A9E4-420A-8FC0-FB40535FD80E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEC6209E-CF6B-41FB-96CE-99846EB26AD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEC6209E-CF6B-41FB-96CE-99846EB26AD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEC6209E-CF6B-41FB-96CE-99846EB26AD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEC6209E-CF6B-41FB-96CE-99846EB26AD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
