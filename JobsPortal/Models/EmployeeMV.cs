@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 
@@ -16,11 +17,11 @@ namespace JobsPortal.Models
         public string Skills { get; set; }
         public string EmailAddress { get; set; }
         public string Gender { get; set; }
-        public string Photo { get; set; }
+        public byte[] Photo { get; set; }
         public string Qualification { get; set; }
         public string PermanentAddress { get; set; }
         public string JobReference { get; set; }
         public string Description { get; set; }
-        public string Resume { get; set; }
+        public byte[] Resume { get; set; }
     }
 }

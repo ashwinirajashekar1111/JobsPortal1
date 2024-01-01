@@ -7,12 +7,14 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using DatabaseAccessLayer;
+using JobsPortal.Helper;
 
 namespace JobsPortal.Controllers
 {
     public class EmployeesTablesController : Controller
     {
         private JobsPortalDbEntities db = new JobsPortalDbEntities();
+        
 
         // GET: EmployeesTables
         public ActionResult Index()
@@ -39,6 +41,7 @@ namespace JobsPortal.Controllers
         // GET: EmployeesTables/Create
         public ActionResult Create()
         {
+            
             ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName");
             return View();
         }
@@ -50,14 +53,24 @@ namespace JobsPortal.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume")] EmployeesTable employeesTable)
         {
+           
+            Console.WriteLine("name", employeesTable.EmployeeName);
+            //Console.ReadKey();
+            //Console.WriteLine("resume", employeesTable.Resume);
             if (ModelState.IsValid)
             {
                 db.EmployeesTables.Add(employeesTable);
                 db.SaveChanges();
+                Email.Emailsend(employeesTable.EmailAddress, employeesTable.EmployeeName, "test",false);
+
                 return RedirectToAction("Index");
             }
 
+            
+
             ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName", employeesTable.UserId);
+            
+            
             return View(employeesTable);
         }
 

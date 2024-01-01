@@ -21,10 +21,11 @@ namespace JobsPortal.Helper
             try
             {
                 // Configuration settings from the Web.config file
-                string HostAddress = ConfigurationManager.AppSettings["Host"].ToString();
-                string FormEmailId = ConfigurationManager.AppSettings["MailFrom"].ToString();
-                string Password = ConfigurationManager.AppSettings["Password"].ToString();
-                string Port = ConfigurationManager.AppSettings["Port"].ToString();
+                string HostAddress = "smtp.gmail.com";
+                string FormEmailId = "chandadrushika6@gmail.com";
+
+                string Password = "kvhx hgsn wpji nwek";
+                string Port = "587";
 
                 // Create a MailMessage
                 // MailMessage is created to represent an email message.
