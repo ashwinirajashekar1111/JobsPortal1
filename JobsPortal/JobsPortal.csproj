@@ -432,6 +432,7 @@
     <Content Include="Views\EmployeesTables\Edit.cshtml" />
     <Content Include="Views\EmployeesTables\Create.cshtml" />
     <Content Include="Views\EmployeesTables\Index.cshtml" />
+    <Content Include="Views\EmployeesTables\Delete.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
