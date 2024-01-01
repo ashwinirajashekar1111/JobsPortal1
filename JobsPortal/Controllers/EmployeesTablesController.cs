@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -51,17 +52,39 @@ namespace JobsPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume")] EmployeesTable employeesTable)
+        public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume")] EmployeesTable employeesTable , HttpPostedFileBase photo1, HttpPostedFileBase resume1)
         {
            
-            Console.WriteLine("name", employeesTable.EmployeeName);
-            //Console.ReadKey();
-            //Console.WriteLine("resume", employeesTable.Resume);
+            
             if (ModelState.IsValid)
             {
+                if (photo1!= null && photo1.ContentLength > 0)
+                {
+                    string photoname = Path.GetFileNameWithoutExtension(photo1.FileName);
+                    string extension = Path.GetExtension(photo1.FileName);
+                    string uniquePhotoname = $"{photoname}_{employeesTable.UserId}{extension}";
+                    string photopath = Path.Combine(Server.MapPath("~/UploadImages/"), uniquePhotoname);
+                    photo1.SaveAs(photopath);
+
+                    employeesTable.Photo = photopath;
+                }
+
+                // Resume Upload
+                if (resume1 != null && resume1.ContentLength > 0)
+                {
+                    string filename = Path.GetFileNameWithoutExtension(resume1.FileName);
+                    string extension = Path.GetExtension(resume1.FileName);
+                    string uniqueFilename = $"{filename}_{employeesTable.UserId}{extension}";
+                    string filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
+                    resume1.SaveAs(filepath);
+
+                    employeesTable.Resume = filepath;
+                }
+
                 db.EmployeesTables.Add(employeesTable);
                 db.SaveChanges();
-                Email.Emailsend(employeesTable.EmailAddress, employeesTable.EmployeeName, "test",false);
+                UserTable userdata  = db.UserTables.AsNoTracking().Where(x => x.UserID == employeesTable.UserId).FirstOrDefault();
+                Email.Emailsend(userdata.EmailAddress,"subject", "Body",false);
 
                 return RedirectToAction("Index");
             }
@@ -95,11 +118,60 @@ namespace JobsPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume")] EmployeesTable employeesTable)
+        public ActionResult Edit([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Qualification,PermanentAddress,JobReference,Description")] EmployeesTable employeesTable, HttpPostedFileBase photo1, HttpPostedFileBase resume1)
         {
             if (ModelState.IsValid)
             {
+                if (photo1 != null && photo1.ContentLength > 0)
+                {
+                    string photoname = Path.GetFileNameWithoutExtension(photo1.FileName);
+                    string extension = Path.GetExtension(photo1.FileName);
+                    string uniquePhotoname = $"{photoname}_{employeesTable.UserId}{extension}";
+                    string photopath = Path.Combine(Server.MapPath("~/UploadImages/"), uniquePhotoname);
+                    photo1.SaveAs(photopath);
+
+                    employeesTable.Photo = photopath;
+                }
+                else
+                {
+                    EmployeesTable employeesdata = db.EmployeesTables.AsNoTracking().Where(x => x.EmployeeID == employeesTable.EmployeeID).FirstOrDefault();
+
+                    if (employeesdata == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    else
+                    {
+                        employeesTable.Photo=employeesdata.Photo;
+                    }
+                }
+
+                // Resume Upload
+                if (resume1 != null && resume1.ContentLength > 0)
+                {
+                    string filename = Path.GetFileNameWithoutExtension(resume1.FileName);
+                    string extension = Path.GetExtension(resume1.FileName);
+                    string uniqueFilename = $"{filename}_{employeesTable.UserId}{extension}";
+                    string filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
+                    resume1.SaveAs(filepath);
+
+                    employeesTable.Resume = filepath;
+                }
+                else
+                {
+                    EmployeesTable employeesdata = db.EmployeesTables.AsNoTracking().Where(x => x.EmployeeID == employeesTable.EmployeeID).FirstOrDefault();
+                    
+                    if (employeesdata == null)
+                    {
+                        return HttpNotFound();
+                    }
+                    else
+                    {
+                        employeesTable.Resume = employeesdata.Resume;
+                    }
+                }
                 db.Entry(employeesTable).State = EntityState.Modified;
+                
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }

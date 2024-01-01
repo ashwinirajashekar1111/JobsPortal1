@@ -87,7 +87,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="photo" />
+                @*@Html.TextBox("file","photo",new {type="file" })*@
+                <input type="file" name="photo1" />
                 @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
             </div>
         </div>
@@ -127,7 +128,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                <input type="file" name="file" />
+                @*@Html.TextBox("file","photo",new {type="file" })*@
+                <input type="file" name="resume1" accept=".docx,.pdf" />
                 @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
             </div>
         </div>
