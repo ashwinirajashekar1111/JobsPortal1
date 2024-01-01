@@ -192,7 +192,7 @@ namespace JobsPortal.Controllers
             db.Entry(requirements).State = System.Data.Entity.EntityState.Deleted;
             db.SaveChanges();
             log.Info($"DeleteReq - Successfully deleted job requirement with ID: {id}");
-            return RedirectToAction("AddJobReq", new {id=jobPostId});
+            return RedirectToAction("AddJobReq", new { id = jobPostId });
         }
 
         public ActionResult DeleteJobPost(int? id)
@@ -201,9 +201,32 @@ namespace JobsPortal.Controllers
             {
                 return RedirectToAction("Login", "User");
             }
+
+            // Find the job post
             var jobPost = db.PostJobTables.Find(id);
-            db.Entry(jobPost).State = System.Data.Entity.EntityState.Deleted;
+
+            // Check if the job post exists
+            if (jobPost == null)
+            {
+                return HttpNotFound(); // or handle the case where the job post is not found
+            }
+
+            // Delete related records in JobRequirementDetailsTables
+            var relatedDetails = db.JobRequirementDetailsTables.Where(d => d.PostJobID == id).ToList();
+            foreach (var detail in relatedDetails)
+            {
+                db.JobRequirementDetailsTables.Remove(detail);
+            }
+
+            // Save changes to remove related details
             db.SaveChanges();
+
+            // Delete the job post
+            db.PostJobTables.Remove(jobPost);
+
+            // Save changes to remove the job post
+            db.SaveChanges();
+
             return RedirectToAction("CompanyJobsList");
         }
 

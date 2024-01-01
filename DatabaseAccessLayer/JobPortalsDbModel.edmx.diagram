@@ -23,7 +23,7 @@
         <AssociationConnector Association="JobsPortalDbModel.FK_PostJobTable_JobStatusTable" ManuallyRouted="false" />
         <AssociationConnector Association="JobsPortalDbModel.FK_PostJobTable_UserTable" ManuallyRouted="false" />
         <AssociationConnector Association="JobsPortalDbModel.FK_UserTypeTable_UserTable" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="JobsPortalDbModel.EmployeesTable" Width="1.5" PointX="5.25" PointY="7.625" />
+        <EntityTypeShape EntityType="JobsPortalDbModel.EmployeesTable" PointX="5.25" PointY="7.625" Width="1.5" />
         <AssociationConnector Association="JobsPortalDbModel.FK_EmployeesTable_UserTable" />
       </Diagram>
     </edmx:Diagrams>
