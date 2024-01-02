@@ -40,10 +40,11 @@ namespace JobsPortal.Controllers
         }
 
         // GET: EmployeesTables/Create
-        public ActionResult Create()
+        public ActionResult Create(int? id)
         {
             
             ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName");
+            ViewBag.PostJobID = new SelectList(db.PostJobTables, "PostJobID","JobTitle");
             return View();
         }
 
@@ -52,7 +53,7 @@ namespace JobsPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume")] EmployeesTable employeesTable , HttpPostedFileBase photo1, HttpPostedFileBase resume1)
+        public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume,PostJobID")] EmployeesTable employeesTable , HttpPostedFileBase photo1, HttpPostedFileBase resume1)
         {
            
             
@@ -118,7 +119,7 @@ namespace JobsPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Qualification,PermanentAddress,JobReference,Description")] EmployeesTable employeesTable, HttpPostedFileBase photo1, HttpPostedFileBase resume1)
+        public ActionResult Edit([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Qualification,PermanentAddress,JobReference,Description,PostJobID")] EmployeesTable employeesTable, HttpPostedFileBase photo1, HttpPostedFileBase resume1)
         {
             if (ModelState.IsValid)
             {
@@ -177,6 +178,14 @@ namespace JobsPortal.Controllers
             }
             ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName", employeesTable.UserId);
             return View(employeesTable);
+        }
+       
+        public FileResult Download(string path)
+        {
+            byte[] file = System.IO.File.ReadAllBytes(path);
+            string filename = Path.GetFileName(path);
+            return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+            //return RedirectToAction("Index");
         }
 
         // GET: EmployeesTables/Delete/5

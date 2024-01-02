@@ -135,28 +135,11 @@ namespace JobsPortal.Controllers
                             // Validation checks for User properties done
                             var employee = new EmployeesTable();
                             employee.UserId = user.UserID;
-                            //if (string.IsNullOrEmpty(userMV.Employee.EmailAddress))
-                            //{
-                            //    ModelState.AddModelError("Employee.EmailAddress", "*Required");
-                            //    hasValidationErrors = true;
-                            //}
-                            //if (string.IsNullOrEmpty(userMV.Employee.EmployeeName))
-                            //{
-                            //    ModelState.AddModelError("Employee.EmployeeName", "*Required");
-                            //    hasValidationErrors = true;
-                            //}
-                            //if (string.IsNullOrEmpty(userMV.Employee.Gender))
-                            //{
-                            //    ModelState.AddModelError("Employee.Gender", "*Required");
-                            //    hasValidationErrors = true;
-                            //}
                             employee.EmailAddress = userMV.Employee.EmailAddress;
                             employee.EmployeeName = userMV.Employee.EmployeeName;
                             employee.Gender = userMV.Employee.Gender;
                             employee.Photo = "~/Content/assests/img/adapt_icon/3.png";
-                            // Add the users to the database and save changes.
-                            //db.EmployeesTables.Add(employee);
-                            //db.SaveChanges();
+                           
                         }
                         // If neither provider nor seeker, roll back the transaction.
                         else
@@ -270,6 +253,42 @@ namespace JobsPortal.Controllers
         {
             return View(new ForgotPasswordMV());
         }
+        public ActionResult filteruser()
+        {
+            if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
+            {
+                return RedirectToAction("Login", "User");
+            }
+            var obj = new FilteruserMV();
+         
+            var result = db.UserTables.Where(r =>   r.UserTypeID == 3).ToList();
+            obj.Result = result;
+            //ViewBag.Skills = new SelectList(
+            //                        db.JobCategoryTables.ToList(),
+            //                        "JobCategoryID",
+            //                        "JobCategory",
+            //                        "0");
+            //ViewBag.JobNatureID = new SelectList(
+            //                        db.JobNatureTables.ToList(),
+            //                        "JobNatureID",
+            //                        "JobNature",
+            //                        "0");
+            return View(obj);
+
+
+        }
+        public FileResult Download(string path)
+        {
+            byte[] file = System.IO.File.ReadAllBytes(path);
+            string filename = Path.GetFileName(path);
+            return File(file, System.Net.Mime.MediaTypeNames.Application.Octet, filename);
+            //return RedirectToAction("Index");
+        }
+
+
+
+
+
 
         //This is the HTTP POST method of the Forgot action, which handles the form submission for password recovery
         [HttpPost]

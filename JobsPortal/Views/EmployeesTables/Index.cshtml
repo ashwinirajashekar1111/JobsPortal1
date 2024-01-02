@@ -53,6 +53,12 @@
         <th>
             @Html.DisplayNameFor(model => model.UserTable.UserName)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostJobTable.PostJobID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PostJobTable.JobTitle)
+        </th>
         <th></th>
     </tr>
 
@@ -99,14 +105,22 @@
                 @*@Html.DisplayFor(modelItem => item.Resume)*@
                 @*@Html.("", "", new {path=item.Resume }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })*@
                 @*<a href=@Html.DisplayFor(modelItem=>item.Resume)>*@
-                    <button type="button" onclick="downloadFiles('modelItem => item.Resume')">Download</button>
-                @Html.DisplayFor()
+                @Html.ActionLink("Download", "Download", new { path = item.Resume }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
+
                 @*</a>*@
 
             </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.UserTable.UserName)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostJobTable.PostJobID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PostJobTable.JobTitle)
+            </td>
+
             <td>
                 <br>
                 @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })

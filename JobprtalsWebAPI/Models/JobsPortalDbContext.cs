@@ -213,11 +213,11 @@ namespace JobprtalsWebAPI.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_PostJobTable_CompanyTable");
 
-                entity.HasOne(d => d.JobCategory)
-                    .WithMany(p => p.PostJobTables)
-                    .HasForeignKey(d => d.JobCategoryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PostJobTable_JobCategoryTable");
+                //entity.HasOne(d => d.JobCategory)
+                //    .WithMany(p => p.PostJobTables)
+                //    .HasForeignKey(d => d.JobCategoryId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_PostJobTable_JobCategoryTable");
 
                 entity.HasOne(d => d.JobNature)
                     .WithMany(p => p.PostJobTables)

@@ -18,6 +18,7 @@ namespace DatabaseAccessLayer
         public PostJobTable()
         {
             this.JobRequirementDetailsTables = new HashSet<JobRequirementDetailsTable>();
+            this.EmployeesTables = new HashSet<EmployeesTable>();
         }
     
         public int PostJobID { get; set; }
@@ -43,5 +44,7 @@ namespace DatabaseAccessLayer
         public virtual ICollection<JobRequirementDetailsTable> JobRequirementDetailsTables { get; set; }
         public virtual JobStatusTable JobStatusTable { get; set; }
         public virtual UserTable UserTable { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeesTable> EmployeesTables { get; set; }
     }
 }

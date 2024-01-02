@@ -320,6 +320,7 @@
     <Compile Include="Models\CompanyMV.cs" />
     <Compile Include="Models\EmployeeMV.cs" />
     <Compile Include="Models\FilterJobMV.cs" />
+    <Compile Include="Models\FilteruserMV.cs" />
     <Compile Include="Models\ForgotPasswordMV.cs" />
     <Compile Include="Models\JobApplicationEmailVM.cs" />
     <Compile Include="Models\JobReqMV.cs" />
@@ -433,6 +434,7 @@
     <Content Include="Views\EmployeesTables\Create.cshtml" />
     <Content Include="Views\EmployeesTables\Index.cshtml" />
     <Content Include="Views\EmployeesTables\Delete.cshtml" />
+    <Content Include="Views\User\filteruser.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -86,7 +86,7 @@
                <li>Application Deadline : <span>@Model.ApplicationDeadline.ToString("dd MM, yyyy")</span></li>  
                     </ul>
                     <div class="apply-btn2">
-                        <a href="@Url.Action("Create","EmployeesTables")" class="btn">Apply Now</a>
+                        <a href="@Url.Action("Create","EmployeesTables",new { id = @Model.PostJobID })" class="btn">Apply Now</a>
                         <br />
                         <a href="@Url.Action("Index", "EmployeesTables")" class="btn">Send your details directly to the employer for speedy updates!</a>
                     </div>

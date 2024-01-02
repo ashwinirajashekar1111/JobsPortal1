@@ -22,6 +22,8 @@ namespace JobprtalsWebAPI.Models
         public string? ResumeL { get; set; }
         public byte[]? Photo { get; set; }
         public byte[]? Resume { get; set; }
+        public string? PostJobID { get; set; }
+        public string? JobTitle { get; set; }
 
         public virtual UserTable User { get; set; } = null!;
     }

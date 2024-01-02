@@ -19,12 +19,13 @@
         <AssociationConnector Association="JobsPortalDbModel.FK_JobRequirementDetailsTable_JobRequirementsTable" ManuallyRouted="false" />
         <AssociationConnector Association="JobsPortalDbModel.FK_JobRequirementDetailsTable_PostJobTable" ManuallyRouted="false" />
         <AssociationConnector Association="JobsPortalDbModel.FK_PostJobTable_JobStatusTable" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="JobsPortalDbModel.EmployeesTable" PointX="5.25" PointY="7.625" Width="1.5" />
         <EntityTypeShape EntityType="JobsPortalDbModel.UserTable" Width="1.5" PointX="3" PointY="6" />
         <AssociationConnector Association="JobsPortalDbModel.FK_CompanyTable_UserTable" />
-        <AssociationConnector Association="JobsPortalDbModel.FK_EmployeesTables_UserTables" />
         <AssociationConnector Association="JobsPortalDbModel.FK_PostJobTable_UserTable" />
         <AssociationConnector Association="JobsPortalDbModel.FK_UserTypeTable_UserTable" />
+        <EntityTypeShape EntityType="JobsPortalDbModel.EmployeesTable" Width="1.5" PointX="12.75" PointY="4.375" />
+        <AssociationConnector Association="JobsPortalDbModel.FK_EmployeesTables_PostJobTables" />
+        <AssociationConnector Association="JobsPortalDbModel.FK_EmployeesTables_UserTables" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
