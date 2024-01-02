@@ -253,15 +253,19 @@ namespace JobsPortal.Controllers
         {
             return View(new ForgotPasswordMV());
         }
-        public ActionResult filteruser()
+        public ActionResult filteruser(string searching)
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
             {
                 return RedirectToAction("Login", "User");
             }
+
             var obj = new FilteruserMV();
-         
-            var result = db.UserTables.Where(r =>   r.UserTypeID == 3).ToList();
+         if(searching == null || searching == "")
+            {
+                searching = null;
+            }
+            var result = db.UserTables.Where(r => r.UserTypeID == 3 && ((r.Skills.Contains(searching) || r.Preferred_location.Contains(searching)) || searching == null)).ToList();
             obj.Result = result;
             //ViewBag.Skills = new SelectList(
             //                        db.JobCategoryTables.ToList(),

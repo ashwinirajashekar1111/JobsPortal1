@@ -3,13 +3,13 @@
     ViewBag.Title = "Filter User";
 }
 
-@using (Html.BeginForm("FilterUser", "User", FormMethod.Post,
+@using (Html.BeginForm("FilterUser", "User", FormMethod.Get,
                       new
                       {
                           @class = "form-contact",
                           @novalidate = "novalidate"
                       }))
-{
+{ 
     <!-- Hero Area Start-->
     <div class="slider-area ">
         <div class="single-slider section-overly slider-height2 d-flex align-items-center" data-background="@Url.Content("~/Content/assets/img/hero/about.jpg")">
@@ -53,44 +53,11 @@
                     <div class="job-category-listing mb-50">
                         <!-- single one -->
                         <div class="single-listing">
-                            <div class="small-section-tittle2">
-                                <h4>Job Skill</h4>
-                            </div>
-                            <!-- Select job items start -->
-                            <div class="select-job-items2">
-                                @Html.TextBox("Skills", null, "Enter Skill", htmlAttributes: new
-                                {
-                                    @class = "form-control"
-                                })
-                                @Html.ValidationMessageFor(model => model.Skills, "", new { @class = "text-danger" })
-                            </div>
-                            <div><hr /></div>
-                            <div class="small-section-tittle2">
-                                <h4>Preferredlocation</h4>
-                            </div>
-                            <div class="select-job-items2">
-                                @Html.TextBox("Preferred_location", null, "Enter location", htmlAttributes: new
-                                {
-                                    @class = "form-control"
-                                })
-                                @Html.ValidationMessageFor(model => model.Preferred_location, "", new { @class = "text-danger" })
-                            </div>
-                            <!--  Select job items End-->
-                        </div>
-                        <div class="single-listing">
-                            <!-- Range Slider Start -->
-                            <aside class="left_widgets p_filter_widgets price_rangs_aside sidebar_box_shadow">
-                                <div class="small-section-tittle2">
-                                    <h4></h4>
-                                </div>
-                                <div class="widgets_inner">
-                                    <div class="range_item">
-                                        <input type="submit" value="Search" class="button boxed-btn" />
-                                    </div>
-                                </div>
-                            </aside>
-                            <!-- Range Slider End -->
-                        </div>
+                            
+                            @Html.TextBox("searching")<input type="submit" value="search" />
+                            
+                            
+                        
                     </div>
                     <!-- Job Category Listing End -->
                 </div>
@@ -111,22 +78,22 @@
                             <table class="table">
                                 <tr>
                                     <th>
-                                        @Html.DisplayText("UserName")
+                                        User Name
                                     </th>
                                     <th>
-                                        @Html.DisplayText("Contact no")
+                                        Contact No
                                     </th>
                                     <th>
-                                        @Html.DisplayText("Skills")
+                                        Skills
                                     </th>
                                     <th>
-                                        @Html.DisplayText("Email Address")
+                                        Email Address
                                     </th>
                                     <th>
-                                        @Html.DisplayText("Preferred Location")
+                                        Preferred Location
                                     </th>
                                     <th>
-                                        @Html.DisplayText("Resume")
+                                       Resume
                                     </th>
                                     <th></th>
                                 </tr>
@@ -175,4 +142,6 @@
         </div>
     </div>
     <!-- Job List Area End -->
+        </div>
 }
+       
