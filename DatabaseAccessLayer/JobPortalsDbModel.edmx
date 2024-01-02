@@ -31,11 +31,11 @@
           <Property Name="Skills" Type="nvarchar" MaxLength="500" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="Gender" Type="nvarchar" MaxLength="20" Nullable="false" />
-          <Property Name="Photo" Type="nvarchar(max)" />
           <Property Name="Qualification" Type="nvarchar" MaxLength="150" />
           <Property Name="PermanentAddress" Type="nvarchar" MaxLength="500" />
           <Property Name="JobReference" Type="nvarchar" MaxLength="250" />
           <Property Name="Description" Type="nvarchar" MaxLength="4000" />
+          <Property Name="Photo" Type="nvarchar(max)" />
           <Property Name="Resume" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="JobCategoryTables">
@@ -107,6 +107,9 @@
           <Property Name="Password" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="150" Nullable="false" />
           <Property Name="ContactNo" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="Preferred_location" Type="nvarchar" MaxLength="50" />
+          <Property Name="Skills" Type="nvarchar" MaxLength="50" />
+          <Property Name="Resume" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="UserTypeTables">
           <Key>
@@ -127,7 +130,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmployeesTable_UserTable">
+        <Association Name="FK_EmployeesTables_UserTables">
           <End Role="UserTables" Type="Self.UserTables" Multiplicity="1" />
           <End Role="EmployeesTables" Type="Self.EmployeesTables" Multiplicity="*" />
           <ReferentialConstraint>
@@ -252,7 +255,7 @@
             <End Role="UserTables" EntitySet="UserTables" />
             <End Role="CompanyTables" EntitySet="CompanyTables" />
           </AssociationSet>
-          <AssociationSet Name="FK_EmployeesTable_UserTable" Association="Self.FK_EmployeesTable_UserTable">
+          <AssociationSet Name="FK_EmployeesTables_UserTables" Association="Self.FK_EmployeesTables_UserTables">
             <End Role="UserTables" EntitySet="UserTables" />
             <End Role="EmployeesTables" EntitySet="EmployeesTables" />
           </AssociationSet>
@@ -305,8 +308,8 @@
           <Property Name="EmailAddress" Type="String" MaxLength="500" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Logo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserTable" Relationship="Self.FK_CompanyTable_UserTable" FromRole="CompanyTables" ToRole="UserTables" />
           <NavigationProperty Name="PostJobTables" Relationship="Self.FK_PostJobTable_CompanyTable" FromRole="CompanyTables" ToRole="PostJobTables" />
+          <NavigationProperty Name="UserTable" Relationship="JobsPortalDbModel.FK_CompanyTable_UserTable" FromRole="CompanyTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="JobCategoryTable">
           <Key>
@@ -377,22 +380,7 @@
           <NavigationProperty Name="JobNatureTable" Relationship="Self.FK_PostJobTable_JobNatureTable" FromRole="PostJobTables" ToRole="JobNatureTables" />
           <NavigationProperty Name="JobRequirementDetailsTables" Relationship="Self.FK_JobRequirementDetailsTable_PostJobTable" FromRole="PostJobTables" ToRole="JobRequirementDetailsTables" />
           <NavigationProperty Name="JobStatusTable" Relationship="Self.FK_PostJobTable_JobStatusTable" FromRole="PostJobTables" ToRole="JobStatusTables" />
-          <NavigationProperty Name="UserTable" Relationship="Self.FK_PostJobTable_UserTable" FromRole="PostJobTables" ToRole="UserTables" />
-        </EntityType>
-        <EntityType Name="UserTable">
-          <Key>
-            <PropertyRef Name="UserID" />
-          </Key>
-          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="EmailAddress" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContactNo" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="CompanyTables" Relationship="Self.FK_CompanyTable_UserTable" FromRole="UserTables" ToRole="CompanyTables" />
-          <NavigationProperty Name="PostJobTables" Relationship="Self.FK_PostJobTable_UserTable" FromRole="UserTables" ToRole="PostJobTables" />
-          <NavigationProperty Name="UserTypeTable" Relationship="Self.FK_UserTypeTable_UserTable" FromRole="UserTables" ToRole="UserTypeTables" />
-          <NavigationProperty Name="EmployeesTables" Relationship="JobsPortalDbModel.FK_EmployeesTable_UserTable" FromRole="UserTable" ToRole="EmployeesTable" />
+          <NavigationProperty Name="UserTable" Relationship="JobsPortalDbModel.FK_PostJobTable_UserTable" FromRole="PostJobTable" ToRole="UserTable" />
         </EntityType>
         <EntityType Name="UserTypeTable">
           <Key>
@@ -400,20 +388,8 @@
           </Key>
           <Property Name="UserTypeID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserType" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserTables" Relationship="Self.FK_UserTypeTable_UserTable" FromRole="UserTypeTables" ToRole="UserTables" />
+          <NavigationProperty Name="UserTables" Relationship="JobsPortalDbModel.FK_UserTypeTable_UserTable" FromRole="UserTypeTable" ToRole="UserTable" />
         </EntityType>
-        <Association Name="FK_CompanyTable_UserTable">
-          <End Role="UserTables" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="CompanyTables" Type="Self.CompanyTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTables">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="CompanyTables">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_PostJobTable_CompanyTable">
           <End Role="CompanyTables" Type="Self.CompanyTable" Multiplicity="1" />
           <End Role="PostJobTables" Type="Self.PostJobTable" Multiplicity="*" />
@@ -488,30 +464,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PostJobTable_UserTable">
-          <End Role="UserTables" Type="Self.UserTable" Multiplicity="1" />
-          <End Role="PostJobTables" Type="Self.PostJobTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTables">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="PostJobTables">
-              <PropertyRef Name="UserID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_UserTypeTable_UserTable">
-          <End Role="UserTypeTables" Type="Self.UserTypeTable" Multiplicity="1" />
-          <End Role="UserTables" Type="Self.UserTable" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserTypeTables">
-              <PropertyRef Name="UserTypeID" />
-            </Principal>
-            <Dependent Role="UserTables">
-              <PropertyRef Name="UserTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="JobsPortalDbEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="CompanyTables" EntityType="Self.CompanyTable" />
           <EntitySet Name="JobCategoryTables" EntityType="Self.JobCategoryTable" />
@@ -520,12 +472,7 @@
           <EntitySet Name="JobRequirementsTables" EntityType="Self.JobRequirementsTable" />
           <EntitySet Name="JobStatusTables" EntityType="Self.JobStatusTable" />
           <EntitySet Name="PostJobTables" EntityType="Self.PostJobTable" />
-          <EntitySet Name="UserTables" EntityType="Self.UserTable" />
           <EntitySet Name="UserTypeTables" EntityType="Self.UserTypeTable" />
-          <AssociationSet Name="FK_CompanyTable_UserTable" Association="Self.FK_CompanyTable_UserTable">
-            <End Role="UserTables" EntitySet="UserTables" />
-            <End Role="CompanyTables" EntitySet="CompanyTables" />
-          </AssociationSet>
           <AssociationSet Name="FK_PostJobTable_CompanyTable" Association="Self.FK_PostJobTable_CompanyTable">
             <End Role="CompanyTables" EntitySet="CompanyTables" />
             <End Role="PostJobTables" EntitySet="PostJobTables" />
@@ -550,20 +497,25 @@
             <End Role="JobStatusTables" EntitySet="JobStatusTables" />
             <End Role="PostJobTables" EntitySet="PostJobTables" />
           </AssociationSet>
-          <AssociationSet Name="FK_PostJobTable_UserTable" Association="Self.FK_PostJobTable_UserTable">
-            <End Role="UserTables" EntitySet="UserTables" />
-            <End Role="PostJobTables" EntitySet="PostJobTables" />
-          </AssociationSet>
-          <AssociationSet Name="FK_UserTypeTable_UserTable" Association="Self.FK_UserTypeTable_UserTable">
-            <End Role="UserTypeTables" EntitySet="UserTypeTables" />
-            <End Role="UserTables" EntitySet="UserTables" />
-          </AssociationSet>
           <EntitySet Name="EmployeesTables" EntityType="JobsPortalDbModel.EmployeesTable" />
-          <AssociationSet Name="FK_EmployeesTable_UserTable" Association="JobsPortalDbModel.FK_EmployeesTable_UserTable">
+          <EntitySet Name="UserTables" EntityType="JobsPortalDbModel.UserTable" />
+          <AssociationSet Name="FK_CompanyTable_UserTable" Association="JobsPortalDbModel.FK_CompanyTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="CompanyTable" EntitySet="CompanyTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmployeesTables_UserTables" Association="JobsPortalDbModel.FK_EmployeesTables_UserTables">
             <End Role="UserTable" EntitySet="UserTables" />
             <End Role="EmployeesTable" EntitySet="EmployeesTables" />
           </AssociationSet>
-        </EntityContainer>
+          <AssociationSet Name="FK_PostJobTable_UserTable" Association="JobsPortalDbModel.FK_PostJobTable_UserTable">
+            <End Role="UserTable" EntitySet="UserTables" />
+            <End Role="PostJobTable" EntitySet="PostJobTables" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserTypeTable_UserTable" Association="JobsPortalDbModel.FK_UserTypeTable_UserTable">
+            <End Role="UserTypeTable" EntitySet="UserTypeTables" />
+            <End Role="UserTable" EntitySet="UserTables" />
+          </AssociationSet>
+          </EntityContainer>
         <EntityType Name="EmployeesTable">
           <Key>
             <PropertyRef Name="EmployeeID" />
@@ -583,9 +535,39 @@
           <Property Name="JobReference" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="4000" FixedLength="false" Unicode="true" />
           <Property Name="Resume" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="UserTable" Relationship="JobsPortalDbModel.FK_EmployeesTable_UserTable" FromRole="EmployeesTable" ToRole="UserTable" />
+          <NavigationProperty Name="UserTable" Relationship="JobsPortalDbModel.FK_EmployeesTables_UserTables" FromRole="EmployeesTable" ToRole="UserTable" />
         </EntityType>
-        <Association Name="FK_EmployeesTable_UserTable">
+        <EntityType Name="UserTable">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserTypeID" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="ContactNo" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Preferred_location" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Skills" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Resume" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="CompanyTables" Relationship="JobsPortalDbModel.FK_CompanyTable_UserTable" FromRole="UserTable" ToRole="CompanyTable" />
+          <NavigationProperty Name="EmployeesTables" Relationship="JobsPortalDbModel.FK_EmployeesTables_UserTables" FromRole="UserTable" ToRole="EmployeesTable" />
+          <NavigationProperty Name="PostJobTables" Relationship="JobsPortalDbModel.FK_PostJobTable_UserTable" FromRole="UserTable" ToRole="PostJobTable" />
+          <NavigationProperty Name="UserTypeTable" Relationship="JobsPortalDbModel.FK_UserTypeTable_UserTable" FromRole="UserTable" ToRole="UserTypeTable" />
+        </EntityType>
+        <Association Name="FK_CompanyTable_UserTable">
+          <End Type="JobsPortalDbModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="JobsPortalDbModel.CompanyTable" Role="CompanyTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="CompanyTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmployeesTables_UserTables">
           <End Type="JobsPortalDbModel.UserTable" Role="UserTable" Multiplicity="1" />
           <End Type="JobsPortalDbModel.EmployeesTable" Role="EmployeesTable" Multiplicity="*" />
           <ReferentialConstraint>
@@ -597,7 +579,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
+        <Association Name="FK_PostJobTable_UserTable">
+          <End Type="JobsPortalDbModel.UserTable" Role="UserTable" Multiplicity="1" />
+          <End Type="JobsPortalDbModel.PostJobTable" Role="PostJobTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTable">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="PostJobTable">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserTypeTable_UserTable">
+          <End Type="JobsPortalDbModel.UserTypeTable" Role="UserTypeTable" Multiplicity="1" />
+          <End Type="JobsPortalDbModel.UserTable" Role="UserTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserTypeTable">
+              <PropertyRef Name="UserTypeID" />
+            </Principal>
+            <Dependent Role="UserTable">
+              <PropertyRef Name="UserTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -682,18 +688,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="UserTables">
-            <EntityTypeMapping TypeName="JobsPortalDbModel.UserTable">
-              <MappingFragment StoreEntitySet="UserTables">
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
-                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="UserTypeTables">
             <EntityTypeMapping TypeName="JobsPortalDbModel.UserTypeTable">
               <MappingFragment StoreEntitySet="UserTypeTables">
@@ -720,6 +714,21 @@
                 <ScalarProperty Name="EmployeeName" ColumnName="EmployeeName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="EmployeeID" ColumnName="EmployeeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserTables">
+            <EntityTypeMapping TypeName="JobsPortalDbModel.UserTable">
+              <MappingFragment StoreEntitySet="UserTables">
+                <ScalarProperty Name="Resume" ColumnName="Resume" />
+                <ScalarProperty Name="Skills" ColumnName="Skills" />
+                <ScalarProperty Name="Preferred_location" ColumnName="Preferred_location" />
+                <ScalarProperty Name="ContactNo" ColumnName="ContactNo" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

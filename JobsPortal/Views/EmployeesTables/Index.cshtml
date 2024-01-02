@@ -96,28 +96,48 @@
                 @Html.DisplayFor(modelItem => item.Description)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Resume)
+                @*@Html.DisplayFor(modelItem => item.Resume)*@
+                @*@Html.("", "", new {path=item.Resume }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })*@
+                @*<a href=@Html.DisplayFor(modelItem=>item.Resume)>*@
+                    <button type="button" onclick="downloadFiles('modelItem => item.Resume')">Download</button>
+                @Html.DisplayFor()
+                @*</a>*@
+
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.UserTable.UserName)
             </td>
             <td>
-                <br >
+                <br>
                 @Html.ActionLink("Edit", "Edit", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
-            <br />
-                
-                <br >
+                <br />
+
+                <br>
                 @Html.ActionLink("Details", "Details", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
-            <br />
+                <br />
 
-                <br >
+                <br>
                 @Html.ActionLink("Delete", "Delete", new { id = item.EmployeeID }, new { @class = "genric-btn info circle", @style = "margin-bottom: 10px;" })
-            <br />
+                <br />
 
-                
-                
+
+
             </td>
         </tr>
     }
 
 </table>
+
+@section Scripts {
+    <script>
+        
+
+            function downloadFiles(path) {
+                window.downloadFiles(path)
+            }
+
+            
+
+        
+    </script>
+}

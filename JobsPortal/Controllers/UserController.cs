@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using log4net;
 using System.Net;
+using System.IO;
 
 namespace JobsPortal.Controllers
 {
@@ -26,7 +27,7 @@ namespace JobsPortal.Controllers
         //Post: User
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult NewUser(UserMV userMV)
+        public ActionResult NewUser(UserMV userMV,HttpPostedFileBase resume1)
         {
             bool hasValidationErrors = false;
             // Check if the ModelState is valid, meaning that all form validation rules have passed.
@@ -57,14 +58,31 @@ namespace JobsPortal.Controllers
                     {
                         // Create a new UserTable entity and set its properties based on the form data.
                         // The UserTypeID is determined based on whether the user is a provider or not.
+                        string filepath = "";
+                        if (resume1 != null && resume1.ContentLength > 0)
+                        {
+                            string filename = Path.GetFileNameWithoutExtension(resume1.FileName);
+                            string extension = Path.GetExtension(resume1.FileName);
+                            string uniqueFilename = $"{filename}_{userMV.UserName}{extension}";
+                            filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
+                            resume1.SaveAs(filepath);
+
+                           
+                        }
+
                         var user = new UserTable();
                         user.UserName = userMV.UserName;
                         user.Password = userMV.Password;
                         user.ContactNo = userMV.ContactNo;
                         user.EmailAddress = userMV.EmailAddress;
+                        user.Preferred_location = userMV.Preferred_location;
+                        user.Skills = userMV.Skills;
+                        user.Resume = filepath;
                         user.UserTypeID = userMV.AreYouProvider == true ? 2 : 3;
+                        
                         // Add the user to the database and save changes.
                         db.UserTables.Add(user);
+
                         db.SaveChanges();
 
                         if (userMV.AreYouProvider == true)
@@ -117,28 +135,28 @@ namespace JobsPortal.Controllers
                             // Validation checks for User properties done
                             var employee = new EmployeesTable();
                             employee.UserId = user.UserID;
-                            if (string.IsNullOrEmpty(userMV.Employee.EmailAddress))
-                            {
-                                ModelState.AddModelError("Employee.EmailAddress", "*Required");
-                                hasValidationErrors = true;
-                            }
-                            if (string.IsNullOrEmpty(userMV.Employee.EmployeeName))
-                            {
-                                ModelState.AddModelError("Employee.EmployeeName", "*Required");
-                                hasValidationErrors = true;
-                            }
-                            if (string.IsNullOrEmpty(userMV.Employee.Gender))
-                            {
-                                ModelState.AddModelError("Employee.Gender", "*Required");
-                                hasValidationErrors = true;
-                            }
+                            //if (string.IsNullOrEmpty(userMV.Employee.EmailAddress))
+                            //{
+                            //    ModelState.AddModelError("Employee.EmailAddress", "*Required");
+                            //    hasValidationErrors = true;
+                            //}
+                            //if (string.IsNullOrEmpty(userMV.Employee.EmployeeName))
+                            //{
+                            //    ModelState.AddModelError("Employee.EmployeeName", "*Required");
+                            //    hasValidationErrors = true;
+                            //}
+                            //if (string.IsNullOrEmpty(userMV.Employee.Gender))
+                            //{
+                            //    ModelState.AddModelError("Employee.Gender", "*Required");
+                            //    hasValidationErrors = true;
+                            //}
                             employee.EmailAddress = userMV.Employee.EmailAddress;
                             employee.EmployeeName = userMV.Employee.EmployeeName;
                             employee.Gender = userMV.Employee.Gender;
                             employee.Photo = "~/Content/assests/img/adapt_icon/3.png";
                             // Add the users to the database and save changes.
-                            db.EmployeesTables.Add(employee);
-                            db.SaveChanges();
+                            //db.EmployeesTables.Add(employee);
+                            //db.SaveChanges();
                         }
                         // If neither provider nor seeker, roll back the transaction.
                         else

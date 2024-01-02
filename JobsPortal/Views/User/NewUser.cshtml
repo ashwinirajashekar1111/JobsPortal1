@@ -13,11 +13,11 @@
             <h3 class="mb-30">User Registration</h3>
 
             @using (Html.BeginForm("NewUser", "User", FormMethod.Post,
-                new
-                {
-                    @class = "form-contact",
-                    @novalidate = "novalidate"
-                }))
+                    new
+                    {
+                        @class = "form-contact",
+                        @novalidate = "novalidate", enctype = "multipart/form-data"
+            }))
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -104,53 +104,46 @@
                     </div>
                 </div>
 
-                <div class="mt-4 col-sm-12" id="divusername">
+                <div class="mt-4 col-sm-12" id="preferred_location">
                     <div class="formgroup">
-                        Full Name
-                        @Html.EditorFor(model => model.Employee.EmployeeName, new
+                        Preferred location
+                        @Html.EditorFor(model => model.Preferred_location, new
                         {
                             htmlAttributes = new
                             {
                                 @class = "form-control valid",
                                 @rows = "5",
-                                @placeholder = "Enter User Name",
+                                @placeholder = "Enter Preferred location",
                                 @onfocus = "this.placeholder = ''",
-                                @onblur = "this.placeholder = 'Enter User Name'"
+                                @onblur = "this.placeholder = 'Enter Preferred location'"
                             }
                         })
-                        @Html.ValidationMessageFor(model => model.Employee.EmployeeName, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Preferred_location, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="mt-4 col-sm-12" id="divuseremail">
+                <div class="mt-4 col-sm-12" id="Skills">
                     <div class="formgroup">
-                        @Html.Label("EmailAddress", new { @class = "form-label" })
-                        @Html.EditorFor(model => model.Employee.EmailAddress, new
+                        @Html.Label("Skills", new { @class = "form-label" })
+                        @Html.EditorFor(model => model.Skills, new
                         {
                             htmlAttributes = new
                             {
                                 @class = "form-control valid",
                                 @rows = "5",
-                                @placeholder = "Enter User EmailAddress",
+                                @placeholder = "Enter User Skills",
                                 @onfocus = "this.placeholder = ''",
-                                @onblur = "this.placeholder = 'Enter User EmailAddress'"
+                                @onblur = "this.placeholder = 'Enter Skills '"
                             }
                         })
-                        @Html.ValidationMessageFor(model => model.Employee.EmailAddress, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Skills, "", new { @class = "text-danger" })
                     </div>
                 </div>
-                <div class="mt-4 col-sm-12" id="divusergender">
-                    <div class="form-group">
-                        @Html.LabelFor(model => model.Employee.Gender, "Gender", new { @class = "form-label" })
-                        @Html.DropDownListFor(model => model.Employee.Gender,
-                            new SelectList(new List<string>() { "Male", "Female", "Other", "Prefer Not to Say" }),
-                            "Select Gender",
-                            new
-                            {
-                                @class = "form-control valid",
-                                @onfocus = "this.placeholder = ''",
-                                @onblur = "this.placeholder = 'Select Gender'"
-                            })
-                        @Html.ValidationMessageFor(model => model.Employee.Gender, "", new { @class = "text-danger" })
+                <div class="form-group" id="Resume">
+                    @Html.LabelFor(model => model.Resume, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10"> 
+                        @*@Html.TextBox("file","photo",new {type="file" })*@
+                        <input type="file" name="resume1" accept=".docx,.pdf" />
+                        @Html.ValidationMessageFor(model => model.Resume, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="mt-4 col-sm-12" id="divcompanyname">
@@ -255,11 +248,11 @@
                 if ($("[name='AreYouProvider']").is(":checked")) {
                     // Show company fields and hide employee fields
                     $("#divcompanyname, #divcompanyphoneno, #divcompanyemail, #divcompanydescription").show();
-                    $("#divusername, #divuseremail, #divusergender").hide();
+                    $("#preferred_location, #Skills, #Resume").hide();
                 } else {
                     // Hide company fields and show employee fields
                     $("#divcompanyname, #divcompanyphoneno, #divcompanyemail, #divcompanydescription").hide();
-                    $("#divusername, #divuseremail, #divusergender").show();
+                    $("#preferred_location, #Skills, #Resume").show();
                 }
             }
 

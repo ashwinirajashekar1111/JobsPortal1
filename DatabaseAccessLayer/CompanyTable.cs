@@ -29,8 +29,8 @@ namespace DatabaseAccessLayer
         public string Logo { get; set; }
         public string Description { get; set; }
     
-        public virtual UserTable UserTable { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PostJobTable> PostJobTables { get; set; }
+        public virtual UserTable UserTable { get; set; }
     }
 }

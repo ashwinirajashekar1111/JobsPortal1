@@ -32,8 +32,8 @@ namespace DatabaseAccessLayer
         public virtual DbSet<JobRequirementsTable> JobRequirementsTables { get; set; }
         public virtual DbSet<JobStatusTable> JobStatusTables { get; set; }
         public virtual DbSet<PostJobTable> PostJobTables { get; set; }
-        public virtual DbSet<UserTable> UserTables { get; set; }
         public virtual DbSet<UserTypeTable> UserTypeTables { get; set; }
         public virtual DbSet<EmployeesTable> EmployeesTables { get; set; }
+        public virtual DbSet<UserTable> UserTables { get; set; }
     }
 }

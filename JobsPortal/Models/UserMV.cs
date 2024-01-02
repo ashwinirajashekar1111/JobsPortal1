@@ -8,7 +8,7 @@ namespace JobsPortal.Models
         public UserMV()
         {
             Company = new CompanyMV();
-            Employee = new EmployeeMV();
+           Employee = new EmployeeMV();
         }
 
         public int UserID { get; set; }
@@ -32,6 +32,9 @@ namespace JobsPortal.Models
         [StringLength(10, MinimumLength = 10, ErrorMessage = "Contact number must be 10 digits")]
         [RegularExpression("^[0-9]*$", ErrorMessage = "Contact number must be numeric")]
         public string ContactNo { get; set; }
+        public string Skills {  get; set; }
+        public string Preferred_location { get; set; }
+        public byte[] Resume { get; set; }
         public bool AreYouProvider {  get; set; }
         public CompanyMV Company { get; set; }
         public EmployeeMV Employee { get; set; }

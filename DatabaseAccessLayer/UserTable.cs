@@ -18,8 +18,8 @@ namespace DatabaseAccessLayer
         public UserTable()
         {
             this.CompanyTables = new HashSet<CompanyTable>();
-            this.PostJobTables = new HashSet<PostJobTable>();
             this.EmployeesTables = new HashSet<EmployeesTable>();
+            this.PostJobTables = new HashSet<PostJobTable>();
         }
     
         public int UserID { get; set; }
@@ -28,13 +28,16 @@ namespace DatabaseAccessLayer
         public string Password { get; set; }
         public string EmailAddress { get; set; }
         public string ContactNo { get; set; }
+        public string Preferred_location { get; set; }
+        public string Skills { get; set; }
+        public string Resume { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<CompanyTable> CompanyTables { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmployeesTable> EmployeesTables { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<PostJobTable> PostJobTables { get; set; }
         public virtual UserTypeTable UserTypeTable { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<EmployeesTable> EmployeesTables { get; set; }
     }
 }
