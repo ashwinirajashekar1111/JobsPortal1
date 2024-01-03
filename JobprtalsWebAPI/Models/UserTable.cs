@@ -5,12 +5,12 @@ namespace JobprtalsWebAPI.Models
 {
     public partial class UserTable
     {
-        public UserTable()
-        {
-            CompanyTables = new HashSet<CompanyTable>();
-            EmployeesTables = new HashSet<EmployeesTable>();
-            PostJobTables = new HashSet<PostJobTable>();
-        }
+        //public UserTable()
+        //{
+        //    CompanyTables = new HashSet<CompanyTable>();
+        //    EmployeesTables = new HashSet<EmployeesTable>();
+        //    PostJobTables = new HashSet<PostJobTable>();
+        //}
 
         public int UserId { get; set; }
         public int UserTypeId { get; set; }
@@ -19,9 +19,9 @@ namespace JobprtalsWebAPI.Models
         public string EmailAddress { get; set; } = null!;
         public string ContactNo { get; set; } = null!;
 
-        public virtual UserTypeTable UserType { get; set; } = null!;
-        public virtual ICollection<CompanyTable> CompanyTables { get; set; }
-        public virtual ICollection<EmployeesTable> EmployeesTables { get; set; }
-        public virtual ICollection<PostJobTable> PostJobTables { get; set; }
+        //public virtual UserTypeTable UserType { get; set; } = null!;
+        //public virtual ICollection<CompanyTable> CompanyTables { get; set; }
+        //public virtual ICollection<EmployeesTable> EmployeesTables { get; set; }
+        //public virtual ICollection<PostJobTable> PostJobTables { get; set; }
     }
 }

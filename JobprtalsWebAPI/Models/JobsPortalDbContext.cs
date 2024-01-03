@@ -54,11 +54,11 @@ namespace JobprtalsWebAPI.Models
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.CompanyTables)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_CompanyTable_UserTable");
+                //entity.HasOne(d => d.User)
+                //    .WithMany(p => p.CompanyTables)
+                //    .HasForeignKey(d => d.UserId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_CompanyTable_UserTable");
             });
 
             modelBuilder.Entity<EmployeesTable>(entity =>
@@ -97,11 +97,11 @@ namespace JobprtalsWebAPI.Models
                     .HasMaxLength(500)
                     .IsUnicode(false);
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.EmployeesTables)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_EmployeesTable_UserTable");
+                //entity.HasOne(d => d.User)
+                //    .WithMany(p => p.EmployeesTables)
+                //    .HasForeignKey(d => d.UserId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_EmployeesTable_UserTable");
             });
 
             modelBuilder.Entity<JobCategoryTable>(entity =>
@@ -138,15 +138,15 @@ namespace JobprtalsWebAPI.Models
 
                 entity.Property(e => e.PostJobId).HasColumnName("PostJobID");
 
-                entity.HasOne(d => d.JobRequirement)
-                    .WithMany(p => p.JobRequirementDetailsTables)
-                    .HasForeignKey(d => d.JobRequirementId)
-                    .HasConstraintName("FK_JobRequirementDetailsTable_JobRequirementsTable");
+                //entity.HasOne(d => d.JobRequirement)
+                //    .WithMany(p => p.JobRequirementDetailsTables)
+                //    .HasForeignKey(d => d.JobRequirementId)
+                //    .HasConstraintName("FK_JobRequirementDetailsTable_JobRequirementsTable");
 
-                entity.HasOne(d => d.PostJob)
-                    .WithMany(p => p.JobRequirementDetailsTables)
-                    .HasForeignKey(d => d.PostJobId)
-                    .HasConstraintName("FK_JobRequirementDetailsTable_PostJobTable");
+                //entity.HasOne(d => d.PostJob)
+                //    .WithMany(p => p.JobRequirementDetailsTables)
+                //    .HasForeignKey(d => d.PostJobId)
+                //    .HasConstraintName("FK_JobRequirementDetailsTable_PostJobTable");
             });
 
             modelBuilder.Entity<JobRequirementsTable>(entity =>
@@ -207,11 +207,11 @@ namespace JobprtalsWebAPI.Models
 
                 entity.Property(e => e.UserId).HasColumnName("UserID");
 
-                entity.HasOne(d => d.Company)
-                    .WithMany(p => p.PostJobTables)
-                    .HasForeignKey(d => d.CompanyId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PostJobTable_CompanyTable");
+                //entity.HasOne(d => d.Company)
+                //    .WithMany(p => p.PostJobTables)
+                //    .HasForeignKey(d => d.CompanyId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_PostJobTable_CompanyTable");
 
                 //entity.HasOne(d => d.JobCategory)
                 //    .WithMany(p => p.PostJobTables)
@@ -219,23 +219,23 @@ namespace JobprtalsWebAPI.Models
                 //    .OnDelete(DeleteBehavior.ClientSetNull)
                 //    .HasConstraintName("FK_PostJobTable_JobCategoryTable");
 
-                entity.HasOne(d => d.JobNature)
-                    .WithMany(p => p.PostJobTables)
-                    .HasForeignKey(d => d.JobNatureId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PostJobTable_JobNatureTable");
+                //entity.HasOne(d => d.JobNature)
+                //    .WithMany(p => p.PostJobTables)
+                //    .HasForeignKey(d => d.JobNatureId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_PostJobTable_JobNatureTable");
 
-                entity.HasOne(d => d.JobStatus)
-                    .WithMany(p => p.PostJobTables)
-                    .HasForeignKey(d => d.JobStatusId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PostJobTable_JobStatusTable");
+                //entity.HasOne(d => d.JobStatus)
+                //    .WithMany(p => p.PostJobTables)
+                //    .HasForeignKey(d => d.JobStatusId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_PostJobTable_JobStatusTable");
 
-                entity.HasOne(d => d.User)
-                    .WithMany(p => p.PostJobTables)
-                    .HasForeignKey(d => d.UserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_PostJobTable_UserTable");
+                //entity.HasOne(d => d.User)
+                //    .WithMany(p => p.PostJobTables)
+                //    .HasForeignKey(d => d.UserId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_PostJobTable_UserTable");
             });
 
             modelBuilder.Entity<UserTable>(entity =>
@@ -256,11 +256,11 @@ namespace JobprtalsWebAPI.Models
 
                 entity.Property(e => e.UserTypeId).HasColumnName("UserTypeID");
 
-                entity.HasOne(d => d.UserType)
-                    .WithMany(p => p.UserTables)
-                    .HasForeignKey(d => d.UserTypeId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_UserTypeTable_UserTable");
+                //entity.HasOne(d => d.UserType)
+                //    .WithMany(p => p.UserTables)
+                //    .HasForeignKey(d => d.UserTypeId)
+                //    .OnDelete(DeleteBehavior.ClientSetNull)
+                //    .HasConstraintName("FK_UserTypeTable_UserTable");
             });
 
             modelBuilder.Entity<UserTypeTable>(entity =>

@@ -5,14 +5,14 @@ namespace JobprtalsWebAPI.Models
 {
     public partial class JobNatureTable
     {
-        public JobNatureTable()
-        {
-            PostJobTables = new HashSet<PostJobTable>();
-        }
+        //public JobNatureTable()
+        //{
+        //    PostJobTables = new HashSet<PostJobTable>();
+        //}
 
         public int JobNatureId { get; set; }
         public string JobNature { get; set; } = null!;
 
-        public virtual ICollection<PostJobTable> PostJobTables { get; set; }
+        //public virtual ICollection<PostJobTable> PostJobTables { get; set; }
     }
 }

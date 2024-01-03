@@ -198,8 +198,9 @@
     <Content Include="Content\assets\img\gallery\cv_bg.jpg" />
     <Content Include="Content\assets\img\gallery\how-applybg.png" />
     <Content Include="Content\assets\img\hero\about.jpg" />
+    <Content Include="Content\assets\img\hero\br.jpeg" />
     <Content Include="Content\assets\img\hero\h1_hero.jpg" />
-    <Content Include="Content\assets\img\hero\job background.jpg" />
+    <Content Include="Content\assets\img\hero\job.jpg" />
     <Content Include="Content\assets\img\icon\form.png" />
     <Content Include="Content\assets\img\icon\job-list1.png" />
     <Content Include="Content\assets\img\icon\job-list2.png" />
@@ -209,6 +210,8 @@
     <Content Include="Content\assets\img\logo\loder.jpg" />
     <Content Include="Content\assets\img\logo\logo.png" />
     <Content Include="Content\assets\img\logo\logo2_footer.png" />
+    <Content Include="Content\assets\img\logo\newlogo.jpeg" />
+    <Content Include="Content\assets\img\logo\newlogo1.jpeg" />
     <Content Include="Content\assets\img\logo\select-items-icon.jpg" />
     <Content Include="Content\assets\img\logo\testimonial.png" />
     <Content Include="Content\assets\img\offers\1.png" />

@@ -5,10 +5,10 @@ namespace JobprtalsWebAPI.Models
 {
     public partial class PostJobTable
     {
-        public PostJobTable()
-        {
-            JobRequirementDetailsTables = new HashSet<JobRequirementDetailsTable>();
-        }
+        //public PostJobTable()
+        //{
+        //    JobRequirementDetailsTables = new HashSet<JobRequirementDetailsTable>();
+        //}
 
         public int PostJobId { get; set; }
         public int UserId { get; set; }
@@ -31,6 +31,6 @@ namespace JobprtalsWebAPI.Models
         public virtual JobNatureTable JobNature { get; set; } = null!;
         public virtual JobStatusTable JobStatus { get; set; } = null!;
         public virtual UserTable User { get; set; } = null!;
-        public virtual ICollection<JobRequirementDetailsTable> JobRequirementDetailsTables { get; set; }
+        //public virtual ICollection<JobRequirementDetailsTable> JobRequirementDetailsTables { get; set; }
     }
 }
