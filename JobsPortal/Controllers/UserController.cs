@@ -34,132 +34,156 @@ namespace JobsPortal.Controllers
             // ModelState.IsValid checks if there are any validation errors on the submitted form.
             if (ModelState.IsValid)
             {
-                var checkUser = db.UserTables.Where(u => u.EmailAddress == userMV.EmailAddress).FirstOrDefault();
-                // Check if the email address provided in the form is already registered in the database.
-                // If it's found, an error message is added to the ModelState, and hasValidationErrors is set to true.
-                if (checkUser != null)
-                {
-                    ModelState.AddModelError("EmailAddress", "Email is already registered");
-                    hasValidationErrors = true;
-                }
-                // Similar to the previous block, this checks if the username is already registered in the database.
-                // If it's found, an error message is added to the ModelState, and hasValidationErrors is set to true.
-                checkUser = db.UserTables.Where(u => u.UserName == userMV.UserName).FirstOrDefault();
-                if (checkUser != null)
-                {
-                    ModelState.AddModelError("UserName", "User Name is already registered");
-                    hasValidationErrors = true;
-                }
-
-                // Start a database transaction to ensure data consistency.
-                using (var transact = db.Database.BeginTransaction())
-                {
-                    try
+                
+                    var checkUser = db.UserTables.Where(u => u.EmailAddress == userMV.EmailAddress).FirstOrDefault();
+                    // Check if the email address provided in the form is already registered in the database.
+                    // If it's found, an error message is added to the ModelState, and hasValidationErrors is set to true.
+                    if (checkUser != null)
                     {
-                        // Create a new UserTable entity and set its properties based on the form data.
-                        // The UserTypeID is determined based on whether the user is a provider or not.
-                        string filepath = "";
-                        if (resume1 != null && resume1.ContentLength > 0)
+                        ModelState.AddModelError("EmailAddress", "Email is already registered");
+                        hasValidationErrors = true;
+                        return View(userMV);
+                    }
+                    // Similar to the previous block, this checks if the username is already registered in the database.
+                    // If it's found, an error message is added to the ModelState, and hasValidationErrors is set to true.
+                    checkUser = db.UserTables.Where(u => u.UserName == userMV.UserName).FirstOrDefault();
+                    if (checkUser != null)
+                    {
+                        ModelState.AddModelError("UserName", "User Name is already registered");
+                        hasValidationErrors = true;
+                        return View(userMV);
+                    }
+
+                    // Start a database transaction to ensure data consistency.
+                    using (var transact = db.Database.BeginTransaction())
+                    {
+                        try
                         {
+                            // Create a new UserTable entity and set its properties based on the form data.
+                            // The UserTypeID is determined based on whether the user is a provider or not.
+                            string filepath = "";
+                            if (resume1 != null && resume1.ContentLength > 0)
+
+                            {
+                            var supportedTypes = new[] { ".docx", ".doc", ".pdf" };
                             string filename = Path.GetFileNameWithoutExtension(resume1.FileName);
-                            string extension = Path.GetExtension(resume1.FileName);
-                            string uniqueFilename = $"{filename}_{userMV.UserName}{extension}";
-                            filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
-                            resume1.SaveAs(filepath);
-
-                           
-                        }
-
-                        var user = new UserTable();
-                        user.UserName = userMV.UserName;
-                        user.Password = userMV.Password;
-                        user.ContactNo = userMV.ContactNo;
-                        user.EmailAddress = userMV.EmailAddress;
-                        user.Preferred_location = userMV.Preferred_location;
-                        user.Skills = userMV.Skills;
-                        user.Resume = filepath;
-                        user.UserTypeID = userMV.AreYouProvider == true ? 2 : 3;
-                        
-                        // Add the user to the database and save changes.
-                        db.UserTables.Add(user);
-
-                        db.SaveChanges();
-
-                        if (userMV.AreYouProvider == true)
-                        {
-                            // Create a new CompanyTable entity associated with the user.
-                            // Set its properties based on the form data.
-                            // Validation checks for Company properties done
-                            var company = new CompanyTable();
-                            company.UserID = user.UserID;
-                            if (string.IsNullOrEmpty(userMV.Company.EmailAddress))
+                                string extension = Path.GetExtension(resume1.FileName);
+                                string uniqueFilename = $"{filename}_{userMV.UserName}{extension}";
+                                filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
+                            if (supportedTypes.Contains(extension))
                             {
-                                ModelState.AddModelError("Company.EmailAddress", "*Required");
-                                hasValidationErrors = true;
+                                resume1.SaveAs(filepath);
+
+
+                                
                             }
-                            if (string.IsNullOrEmpty(userMV.Company.CompanyName))
+                            else
                             {
-                                ModelState.AddModelError("Company.CompanyName", "*Required");
-                                hasValidationErrors = true;
+                                ModelState.AddModelError("Resume", "please upload a valid format resume docx or doc or pdf ");
+
+                                return View(userMV);
                             }
-                            if (string.IsNullOrEmpty(userMV.Company.PhoneNo))
-                            {
-                                ModelState.AddModelError("Company.PhoneNo", "*Required");
-                                hasValidationErrors = true;
-                            }
-                            else if (userMV.Company.PhoneNo.Length != 10 || !userMV.Company.PhoneNo.All(char.IsDigit))
-                            {
-                                ModelState.AddModelError("Company.PhoneNo", "Please enter a 10-digit numeric phone number");
-                                hasValidationErrors = true;
+                            
+
+
                             }
 
-                            if (string.IsNullOrEmpty(userMV.Company.Description))
-                            {
-                                ModelState.AddModelError("Company.Description", "*Required");
-                                hasValidationErrors = true;
-                            }
-                            company.EmailAddress = userMV.Company.EmailAddress;
-                            company.CompanyName = userMV.Company.CompanyName;
-                            company.ContactNo = userMV.ContactNo;
-                            company.PhoneNo = userMV.Company.PhoneNo;
-                            company.Logo = "~/Content/assests/img/logo/logo.png";
-                            company.Description = userMV.Company.Description;
-                            // Add the company to the database and save changes.
-                            db.CompanyTables.Add(company);
+                            var user = new UserTable();
+                            user.UserName = userMV.UserName;
+                            user.Password = userMV.Password;
+                            user.ContactNo = userMV.ContactNo;
+                            user.EmailAddress = userMV.EmailAddress;
+                            user.Preferred_location = userMV.Preferred_location;
+                            user.Skills = userMV.Skills;
+                            user.Resume = filepath;
+                            user.UserTypeID = userMV.AreYouProvider == true ? 2 : 3;
+
+                            // Add the user to the database and save changes.
+                            db.UserTables.Add(user);
+
                             db.SaveChanges();
+
+                            if (userMV.AreYouProvider == true)
+                            {
+                                // Create a new CompanyTable entity associated with the user.
+                                // Set its properties based on the form data.
+                                // Validation checks for Company properties done
+                                var company = new CompanyTable();
+                                company.UserID = user.UserID;
+                                if (string.IsNullOrEmpty(userMV.Company.EmailAddress))
+                                {
+                                    ModelState.AddModelError("Company.EmailAddress", "*Required");
+                                    hasValidationErrors = true;
+                                    return View(userMV);
+                                }
+                                if (string.IsNullOrEmpty(userMV.Company.CompanyName))
+                                {
+                                    ModelState.AddModelError("Company.CompanyName", "*Required");
+                                    hasValidationErrors = true;
+                                    return View(userMV);
+                                }
+                                if (string.IsNullOrEmpty(userMV.Company.PhoneNo))
+                                {
+                                    ModelState.AddModelError("Company.PhoneNo", "*Required");
+                                    hasValidationErrors = true;
+                                    return View(userMV);
+                                }
+                                else if (userMV.Company.PhoneNo.Length != 10 || !userMV.Company.PhoneNo.All(char.IsDigit))
+                                {
+                                    ModelState.AddModelError("Company.PhoneNo", "Please enter a 10-digit numeric phone number");
+                                    hasValidationErrors = true;
+                                    return View(userMV);
+                                }
+
+                                if (string.IsNullOrEmpty(userMV.Company.Description))
+                                {
+                                    ModelState.AddModelError("Company.Description", "*Required");
+                                    hasValidationErrors = true;
+                                    return View(userMV);
+                                }
+                                company.EmailAddress = userMV.Company.EmailAddress;
+                                company.CompanyName = userMV.Company.CompanyName;
+                                company.ContactNo = userMV.ContactNo;
+                                company.PhoneNo = userMV.Company.PhoneNo;
+                                company.Logo = "~/Content/assests/img/logo/logo.png";
+                                company.Description = userMV.Company.Description;
+                                // Add the company to the database and save changes.
+                                db.CompanyTables.Add(company);
+                                db.SaveChanges();
+                            }
+                            else if (userMV.AreYouProvider != true)
+                            {
+                                // Create a new EmployeesTable entity associated with the user.
+                                // Set its properties based on the form data.
+                                // Validation checks for User properties done
+                                var employee = new EmployeesTable();
+                                employee.UserId = user.UserID;
+                                employee.EmailAddress = userMV.Employee.EmailAddress;
+                                employee.EmployeeName = userMV.Employee.EmployeeName;
+                                employee.Gender = userMV.Employee.Gender;
+                                employee.Photo = "~/Content/assests/img/adapt_icon/3.png";
+
+                            }
+                            // If neither provider nor seeker, roll back the transaction.
+                            else
+                            {
+                                transact.Rollback();
+                            }
+                            // Commit the transaction to save all changes to the database.
+                            transact.Commit();
+                            log.Info($"New user with username {user.UserName} created successfully.");
+                            // Redirect to the login page after successful registration.
+                            return RedirectToAction("Login");
                         }
-                        else if (userMV.AreYouProvider != true)
+                        // If any exception occurs during the transaction, add a generic error message to the ModelState.
+                        catch (Exception ex)
                         {
-                            // Create a new EmployeesTable entity associated with the user.
-                            // Set its properties based on the form data.
-                            // Validation checks for User properties done
-                            var employee = new EmployeesTable();
-                            employee.UserId = user.UserID;
-                            employee.EmailAddress = userMV.Employee.EmailAddress;
-                            employee.EmployeeName = userMV.Employee.EmployeeName;
-                            employee.Gender = userMV.Employee.Gender;
-                            employee.Photo = "~/Content/assests/img/adapt_icon/3.png";
-                           
-                        }
-                        // If neither provider nor seeker, roll back the transaction.
-                        else
-                        {
+                            ModelState.AddModelError(string.Empty, "Please provide correct details!");
+                            log.Error("Error while creating new user.", ex);
                             transact.Rollback();
                         }
-                        // Commit the transaction to save all changes to the database.
-                        transact.Commit();
-                        log.Info($"New user with username {user.UserName} created successfully.");
-                        // Redirect to the login page after successful registration.
-                        return RedirectToAction("Login");
                     }
-                    // If any exception occurs during the transaction, add a generic error message to the ModelState.
-                    catch (Exception ex)
-                    {
-                        ModelState.AddModelError(string.Empty, "Please provide correct details!");
-                        log.Error("Error while creating new user.", ex);
-                        transact.Rollback();
-                    }
-                }
+                
             }
             // If ModelState.IsValid is false or any exception occurred, return the registration form view with error messages.
             return View(userMV);
@@ -190,7 +214,7 @@ namespace JobsPortal.Controllers
                     return View(userLoginMV);
                 }
                 // Store user information in session variables.
-                Session["UserID"] = user.UserID;
+                Session["UserNo"] = user.UserID;
                 Session["UserName"] = user.UserName;
                 Session["UserTypeID"] = user.UserTypeID;
                 // If the user is of type 2 (provider), store the associated company ID in a session variable.
@@ -220,7 +244,7 @@ namespace JobsPortal.Controllers
         public ActionResult Logout()
         {
             // Clear session variables and log the user logout event.
-            Session["UserID"] = string.Empty;
+            Session["UserNo"] = string.Empty;
             Session["UserName"] = string.Empty;
             Session["CompanyID"] = string.Empty;
             Session["EmployeeID"] = string.Empty;

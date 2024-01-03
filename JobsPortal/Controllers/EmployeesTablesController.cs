@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using DatabaseAccessLayer;
 using JobsPortal.Helper;
+using JobsPortal.Models;
 
 namespace JobsPortal.Controllers
 {
@@ -40,11 +41,14 @@ namespace JobsPortal.Controllers
         }
 
         // GET: EmployeesTables/Create
-        public ActionResult Create(int? id)
+        public ActionResult Create(int? Id)
         {
-            
-            ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName");
-            ViewBag.PostJobID = new SelectList(db.PostJobTables, "PostJobID","JobTitle");
+            int uid = Convert.ToInt32(Session["UserNo"]);
+            var result = db.UserTables.Where(u => u.UserID == uid).ToList();
+            ViewBag.UserId = new SelectList(result, "UserID", "UserName",uid);
+            //ViewBag.UserId = new SelectList(result, "UserID", "UserName");
+            var result2 = db.PostJobTables.Where(p => p.PostJobID == Id).ToList();
+            ViewBag.PostJobID = new SelectList(result2, "PostJobID","JobTitle",Id);
             return View();
         }
 
@@ -53,50 +57,89 @@ namespace JobsPortal.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume,PostJobID")] EmployeesTable employeesTable , HttpPostedFileBase photo1, HttpPostedFileBase resume1)
+        public ActionResult Create([Bind(Include = "EmployeeID,UserId,EmployeeName,DOB,Education,WorkExperience,Skills,EmailAddress,Gender,Photo,Qualification,PermanentAddress,JobReference,Description,Resume,PostJobID")] EmployeesTable employeesTable, HttpPostedFileBase photo1, HttpPostedFileBase resume1)
         {
-           
             
-            if (ModelState.IsValid)
-            {
-                if (photo1!= null && photo1.ContentLength > 0)
+                if (ModelState.IsValid)
                 {
-                    string photoname = Path.GetFileNameWithoutExtension(photo1.FileName);
-                    string extension = Path.GetExtension(photo1.FileName);
-                    string uniquePhotoname = $"{photoname}_{employeesTable.UserId}{extension}";
-                    string photopath = Path.Combine(Server.MapPath("~/UploadImages/"), uniquePhotoname);
-                    photo1.SaveAs(photopath);
+                    ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName", employeesTable.UserId);
+                ViewBag.PostJobID = new SelectList(db.PostJobTables, "PostJobID", "JobTitle", employeesTable.PostJobID);
+                if (photo1 != null && photo1.ContentLength > 0)
+                    {
+                        var supportedTypes = new[] { ".png", ".jpg",".jpeg" };
+                        
+                        string photoname = Path.GetFileNameWithoutExtension(photo1.FileName);
+                        string extension = Path.GetExtension(photo1.FileName);
+                        string uniquePhotoname = $"{photoname}_{employeesTable.UserId}{extension}";
+                        string photopath = Path.Combine(Server.MapPath("~/UploadImages/"), uniquePhotoname);
+                    if (supportedTypes.Contains(extension))
+                    {
+                        photo1.SaveAs(photopath);
 
-                    employeesTable.Photo = photopath;
-                }
+                        employeesTable.Photo = photopath;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Photo", "please upload a valid file jpg or png or jpeg ");
+                        
+                        return View(employeesTable);
+                    }
+                    }
 
-                // Resume Upload
-                if (resume1 != null && resume1.ContentLength > 0)
-                {
+                    // Resume Upload
+                    if (resume1 != null && resume1.ContentLength > 0)
+                    {
+                    var supportedTypes = new[] { ".docx", ".doc", ".pdf" };
                     string filename = Path.GetFileNameWithoutExtension(resume1.FileName);
-                    string extension = Path.GetExtension(resume1.FileName);
-                    string uniqueFilename = $"{filename}_{employeesTable.UserId}{extension}";
-                    string filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
-                    resume1.SaveAs(filepath);
+                        string extension = Path.GetExtension(resume1.FileName);
+                        string uniqueFilename = $"{filename}_{employeesTable.UserId}{extension}";
+                        string filepath = Path.Combine(Server.MapPath("~/UploadResumes/"), uniqueFilename);
+                    if (supportedTypes.Contains(extension))
+                    {
+                        resume1.SaveAs(filepath);
 
-                    employeesTable.Resume = filepath;
+
+                        employeesTable.Resume = filepath;
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Resume", "please upload a valid format resume docx or doc or pdf ");
+
+                        return View(employeesTable);
+                    }
+                    
+                    }
+                var result = db.EmployeesTables.Where(e => e.UserId == employeesTable.UserId && e.PostJobID == employeesTable.PostJobID).FirstOrDefault();
+                if(result.EmployeeName != null)
+                {
+                    ModelState.AddModelError("UserID", "You  had already appiled for this job");
+
+                    return View(employeesTable);
+                }
+                else
+                {
+                    db.EmployeesTables.Add(employeesTable);
+                    db.SaveChanges();
+                    UserTable userdata = db.UserTables.AsNoTracking().Where(x => x.UserID == employeesTable.UserId).FirstOrDefault();
+                    Email.Emailsend(userdata.EmailAddress, "subject", "Body", false);
+                }
+                   
+
+                    return RedirectToAction("Index");
                 }
 
-                db.EmployeesTables.Add(employeesTable);
-                db.SaveChanges();
-                UserTable userdata  = db.UserTables.AsNoTracking().Where(x => x.UserID == employeesTable.UserId).FirstOrDefault();
-                Email.Emailsend(userdata.EmailAddress,"subject", "Body",false);
 
-                return RedirectToAction("Index");
+
+
+
+                
+
+
+                return View(employeesTable);
+            
+            
             }
 
-            
-
-            ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName", employeesTable.UserId);
-            
-            
-            return View(employeesTable);
-        }
 
         // GET: EmployeesTables/Edit/5
         public ActionResult Edit(int? id)

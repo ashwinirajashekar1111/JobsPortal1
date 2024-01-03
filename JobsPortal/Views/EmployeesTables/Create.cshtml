@@ -32,13 +32,7 @@
         </div>
     </div>
     <br/>
-    @*<div class="form-group">
-        @Html.LabelFor(model => model.JobTitle, "JobTitle", htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.DropDownList("JobTitle", null, htmlAttributes: new { @class = "form-control" })
-            @Html.ValidationMessageFor(model => model.JobTitle, "", new { @class = "text-danger" })
-        </div>
-    </div>*@
+    
 
     <div class="form-group">
         @Html.LabelFor(model => model.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
@@ -51,7 +45,7 @@
     <div class="form-group">
         @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.TextBoxFor(model => model.DOB, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
             @Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -100,7 +94,7 @@
         @Html.LabelFor(model => model.Photo, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
             @*@Html.TextBox("file","photo",new {type="file" })*@
-            <input type="file" name="photo1" />
+            <input type="file" name="photo1"  id ="photo" onchange="Validatephotoextension()" accept=".jpeg,.png,.jpg" />
             @Html.ValidationMessageFor(model => model.Photo, "", new { @class = "text-danger" })
         </div>
     </div>
@@ -158,6 +152,18 @@
             alert("Successfully submitted");
             // You can also add additional logic for form submission here if needed
         }
+
+        function Validatephotoextension() {
+            var selectedfile = document.getElementById('photo').files[0];
+            var allowtypes = ['image/jpg', 'image/png', 'image/jpeg'];
+            if (!allowtypes.Includes(selectedfile.type))
+            {
+                alert('invalid type for photo.please upload jpeg or jpg or png file');
+                document.getElementById('photo').value = '';
+            }
+            // You can also add additional logic for form submission here if needed
+        }
+
     </script>
 </div>
 }
