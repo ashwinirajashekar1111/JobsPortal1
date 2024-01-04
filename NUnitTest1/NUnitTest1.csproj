@@ -265,8 +265,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HomeControllerTests.cs" />
-    <Compile Include="JobControllerTests.cs" />
-    <Compile Include="JobTestController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
