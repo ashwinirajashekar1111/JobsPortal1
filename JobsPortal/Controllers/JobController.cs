@@ -95,7 +95,10 @@ namespace JobsPortal.Controllers
                                     "JobNatureID",
                                     "JobNature",
                                     "0");
-            return View(postJobMV);
+            var allPost = db.PostJobTables.Where(c => c.CompanyID == companyId && c.UserID == userId).ToList();
+           
+            return View(allPost);
+            return RedirectToAction("CompanyJobsList");
         }
 
         public ActionResult CompanyJobsList()

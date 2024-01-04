@@ -43,7 +43,7 @@ namespace JobsPortal.Controllers
         // GET: EmployeesTables/Create
         public ActionResult Create(int? Id)
         {
-            int uid = Convert.ToInt32(Session["UserNo"]);
+            int uid = Convert.ToInt32(Session["UserID"]);
             var result = db.UserTables.Where(u => u.UserID == uid).ToList();
             ViewBag.UserId = new SelectList(result, "UserID", "UserName",uid);
             //ViewBag.UserId = new SelectList(result, "UserID", "UserName");
@@ -110,7 +110,7 @@ namespace JobsPortal.Controllers
                     
                     }
                 var result = db.EmployeesTables.Where(e => e.UserId == employeesTable.UserId && e.PostJobID == employeesTable.PostJobID).FirstOrDefault();
-                if(result.EmployeeName != null)
+                if(result != null)
                 {
                     ModelState.AddModelError("UserID", "You  had already appiled for this job");
 

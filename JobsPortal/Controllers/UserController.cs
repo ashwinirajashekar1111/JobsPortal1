@@ -214,7 +214,7 @@ namespace JobsPortal.Controllers
                     return View(userLoginMV);
                 }
                 // Store user information in session variables.
-                Session["UserNo"] = user.UserID;
+                Session["UserID"] = user.UserID;
                 Session["UserName"] = user.UserName;
                 Session["UserTypeID"] = user.UserTypeID;
                 // If the user is of type 2 (provider), store the associated company ID in a session variable.
@@ -244,7 +244,7 @@ namespace JobsPortal.Controllers
         public ActionResult Logout()
         {
             // Clear session variables and log the user logout event.
-            Session["UserNo"] = string.Empty;
+            Session["UserID"] = string.Empty;
             Session["UserName"] = string.Empty;
             Session["CompanyID"] = string.Empty;
             Session["EmployeeID"] = string.Empty;
