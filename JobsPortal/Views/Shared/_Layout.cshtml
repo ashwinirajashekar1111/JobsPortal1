@@ -74,6 +74,10 @@
                                             {
                                                 <li><a href="@Url.Content("~/Job/FilterJob")">Find a Job</a></li>
                                             }
+                                            @if (userTypeId == 3)
+                                            {
+                                                <li><a href="@Url.Content("~/employeesTables")">Appiled Jobs</a></li>
+                                            }
                                             @if (userTypeId == 2)
                                             {
                                                 <li><a href="@Url.Content("~/User/filteruser")">Find a User</a></li>
@@ -108,9 +112,9 @@
                                                 <li><a href="@Url.Content("~/Home/Contact")">Contact</a></li>
                                             }
                                             @*@if (userTypeId == 3)
-                                            {
-                                                <li><a href="@Url.Content("~/EmployeesTables/Details")">My Profile</a></li>
-                                            }*@
+        {
+            <li><a href="@Url.Content("~/EmployeesTables/Details")">My Profile</a></li>
+        }*@
                                         </ul>
                                     </nav>
                                 </div>

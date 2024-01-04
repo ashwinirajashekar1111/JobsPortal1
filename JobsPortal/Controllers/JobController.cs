@@ -101,6 +101,7 @@ namespace JobsPortal.Controllers
             return RedirectToAction("CompanyJobsList");
         }
 
+        //This is for postjob after page
         public ActionResult CompanyJobsList()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
@@ -115,6 +116,7 @@ namespace JobsPortal.Controllers
             return View(allPost);
         }
 
+        //This is for admin allcompany post page
         public ActionResult AllCompanyPendingJobs()
         {
             if (string.IsNullOrEmpty(Convert.ToString(Session["UserTypeID"])))
@@ -347,7 +349,7 @@ namespace JobsPortal.Controllers
         public ActionResult FilterJob(FilterJobMV filterJobMV)
         {
             var date = DateTime.Now;
-            var result = db.PostJobTables.Where(r => r.ApplicationDeadline >= date && r.JobStatusID == 2 && (r.JobCategoryID == filterJobMV.JobCategoryID || r.JobNatureID == filterJobMV.JobNatureID)).ToList();
+            var result = db.PostJobTables.Where(r => r.ApplicationDeadline >= date && r.JobStatusID == 2 && (r.JobCategoryID == filterJobMV.JobCategoryID && r.JobNatureID == filterJobMV.JobNatureID)).ToList();
             filterJobMV.Result = result;
             ViewBag.JobCategoryID = new SelectList(
                                     db.JobCategoryTables.ToList(),

@@ -23,7 +23,7 @@ namespace JobsPortal.Controllers
         }
         public ActionResult Contact()
         {
-            log.Info("Accessed HomeController's About action.");
+            log.Info("Accessed HomeController's Contact action.");
             return View();
         }
     }

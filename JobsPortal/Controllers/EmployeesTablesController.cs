@@ -21,8 +21,10 @@ namespace JobsPortal.Controllers
         // GET: EmployeesTables
         public ActionResult Index()
         {
-            var employeesTables = db.EmployeesTables.Include(e => e.UserTable);
-            return View(employeesTables.ToList());
+            //var employeesTables = db.EmployeesTables.Include(e => e.UserTable);
+            int uid = Convert.ToInt32(Session["UserID"]);
+            var result = db.EmployeesTables.Where(u => u.UserId == uid).ToList();
+            return View(result);
         }
 
         // GET: EmployeesTables/Details/5
@@ -85,7 +87,11 @@ namespace JobsPortal.Controllers
                         return View(employeesTable);
                     }
                     }
-
+                var dob = DateTime.Parse(employeesTable.DOB.ToString());
+                if (dob.AddYears(21) > DateTime.Now) {
+                    ModelState.AddModelError("DOB", "Minimum age required is 21years");
+                    return View(employeesTable);
+                }
                     // Resume Upload
                     if (resume1 != null && resume1.ContentLength > 0)
                     {
@@ -154,6 +160,8 @@ namespace JobsPortal.Controllers
                 return HttpNotFound();
             }
             ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName", employeesTable.UserId);
+            //ViewBag.UserId = new SelectList(db.PostJobTables, "UserID", "UserName", employeesTable.UserId);
+            ViewBag.PostJobID = new SelectList(db.PostJobTables, "PostJobID", "JobTitle", employeesTable.PostJobID);
             return View(employeesTable);
         }
 
@@ -220,6 +228,7 @@ namespace JobsPortal.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.UserId = new SelectList(db.UserTables, "UserID", "UserName", employeesTable.UserId);
+            ViewBag.PostJobID = new SelectList(db.PostJobTables, "PostJobID", "JobTitle", employeesTable.PostJobID);
             return View(employeesTable);
         }
        
