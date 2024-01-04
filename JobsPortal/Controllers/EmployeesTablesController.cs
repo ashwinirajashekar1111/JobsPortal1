@@ -127,7 +127,7 @@ namespace JobsPortal.Controllers
                     db.EmployeesTables.Add(employeesTable);
                     db.SaveChanges();
                     UserTable userdata = db.UserTables.AsNoTracking().Where(x => x.UserID == employeesTable.UserId).FirstOrDefault();
-                    Email.Emailsend(userdata.EmailAddress, "subject", "Body", false);
+                    Email.Emailsend(userdata.EmailAddress, "Regarding Application", "Congrats  your  application has been submitted successfully", false);
                 }
                    
 
